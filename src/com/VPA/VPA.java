@@ -30,16 +30,19 @@ import java.util.Scanner;
      */
      void  setNeighborhoodMatrix()
     {
+
+        System.out.println("\nExplanation:\n1 - Neighbor\n0 - Not a neighbor");
+
         neighborhoodMatrix = new int[matrixSize][matrixSize];
 
         for (int i = 0; i < neighborhoodMatrix.length ; i++)
-            for (int j = 0 ; j < neighborhoodMatrix.length ; j++)
+            for (int j = i; j < neighborhoodMatrix.length ; j++)
                 if(i !=j)
                 {
                     boolean exit = false;
                     while (!exit)
                     {
-                        System.out.println("[" + i + "][" + j + "]");
+                        System.out.println("[" + (i+1) + "][" + (j+1) + "]");
                         String temp = sc.nextLine();
                         try {
                             Integer.valueOf(temp);
@@ -51,7 +54,10 @@ import java.util.Scanner;
                         }
                         if(exit){
                             if(Integer.valueOf(temp) == 1 || Integer.valueOf(temp) == 0)
-                            neighborhoodMatrix[i][j] = Integer.valueOf(temp);
+                            {
+                                neighborhoodMatrix[i][j] = Integer.valueOf(temp);
+                                neighborhoodMatrix[j][i] = Integer.valueOf(temp);
+                            }
                             else
                             {
                                 System.out.println("Invalid value");
@@ -80,7 +86,7 @@ import java.util.Scanner;
             for(int j = 0; j < neighborhoodMatrix.length ; j++)
             {
                if(i != j) System.out.print("   " + neighborhoodMatrix[i][j]);
-               else System.out.println("   1" ); // the same vertex  neighborhood
+               else System.out.print("   1" ); // the same vertex  neighborhood
 
             }
             System.out.println("\n");
@@ -98,8 +104,7 @@ import java.util.Scanner;
 
 
         //the positions of the vertex(es) to be painted in the next step
-        ArrayList<Integer> pvpns= new ArrayList<>();
-
+        ArrayList<Integer> pvpns;
 
         //determine isolated vertex and painted
         pvpns = determineIsolatedVertexes();
