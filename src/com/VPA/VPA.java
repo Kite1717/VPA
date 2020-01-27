@@ -78,8 +78,11 @@ import java.util.Scanner;
         {
             System.out.print("   V" +(i+1));
             for(int j = 0; j < neighborhoodMatrix.length ; j++)
-                System.out.print("   " + neighborhoodMatrix[i][j]);
+            {
+               if(i != j) System.out.print("   " + neighborhoodMatrix[i][j]);
+               else System.out.println("   1" ); // the same vertex  neighborhood
 
+            }
             System.out.println("\n");
         }
     }
@@ -184,26 +187,24 @@ import java.util.Scanner;
     }
 
     /**
-     *checks the presence of isolated vertex
-     * @return indicates whether the algorithm is applied
+     * detects isolated vertexes
+     * @return isolated vertexes
      */
-    private boolean checkIsolatedVertex()
+    private ArrayList<Integer> determineIsolatedVertexes()
     {
-        boolean flag;
-        for(int i = 0; i < neighborhoodMatrix.length;i++) {
-            flag = true;
-            for (int j = 0; j < neighborhoodMatrix.length; j++)
-                if (neighborhoodMatrix[j][i] == 1)
-                {
-                    flag = false;
-                    break;
-                }
+        ArrayList<Integer> isolatedVertexesIndex = new ArrayList<>();
+       int rowSum;
+       for(int i = 0; i < neighborhoodMatrix.length ; i++)
+       {
+           rowSum = 0;
+           for(int j = 0;  j < neighborhoodMatrix[i].length ; j++)
+           {
+               rowSum += neighborhoodMatrix[i][j];
+           }
+           if(rowSum == 0) //isolated vertex
+               isolatedVertexesIndex.add(i);
 
-                if(flag){
-                    System.out.println("Two-part graph  can be drawn");
-                    return  flag;
-                }
-        }
-        return false;
+       }
+       return isolatedVertexesIndex;
     }
 }
