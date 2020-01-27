@@ -100,22 +100,35 @@ import java.util.Scanner;
         //the positions of the vertex(es) to be painted in the next step
         ArrayList<Integer> pvpns= new ArrayList<>();
 
+
+        //determine isolated vertex and painted
+        pvpns = determineIsolatedVertexes();
+
+        for(int i : pvpns)
+        {
+            vertexes[i] = color;
+            color = (color == 'R') ? 'B' : 'R';
+        }
+
+        pvpns.clear();
+
         //random init paint vertex
-        int init = new Random().nextInt(matrixSize); // 0 to matrixSize -1
-        vertexes[init] =  color;
+        int init;
+        do {
+            init = new Random().nextInt(matrixSize); // 0 to matrixSize -1
+        } while (vertexes[init] != 'Q');
+
+        vertexes[init] = color;
         pvpns.add(init);
         System.out.println("Started  from the " + (init + 1) +  ". vertex");
 
-                       //corner case
-        boolean exit = checkIsolatedVertex();
-        if(exit) return; //compulsory finishing cause it has isolated vertex
 
+        boolean exit = false;
         while (!exit)
         {
            color = (color == 'R') ? 'B' : 'R';
 
          pvpns =  painting(color,pvpns,vertexes);
-
          exit = checkPainted(vertexes);
 
         }
